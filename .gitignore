@@ -1,6 +1,2 @@
-# Ignorar datasets
-datasets/
-*.csv
-
 # Ignorar archivos de sistema de Mac
 .DS_Store
