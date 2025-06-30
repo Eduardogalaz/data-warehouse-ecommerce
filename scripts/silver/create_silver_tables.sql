@@ -2,7 +2,6 @@
    Script: create_silver_tables.sql
    Description: This script recreates the Silver layer tables for the Data Warehouse.
                 - Drops tables if they already exist.
-                - 
                 - Divided into CRM and ERP source sections.
                 - Naming follows: silver.source_table_name
    Author: Eduardo Galaz
@@ -28,6 +27,7 @@ CREATE TABLE silver.crm_cust_info(
 DROP TABLE IF EXISTS silver.crm_prd_info;
 CREATE TABLE silver.crm_prd_info(
 	prd_id INT,
+	cat_id VARCHAR(50),
 	prd_key VARCHAR(50),
 	prd_nm VARCHAR(50),
 	prd_cost INT,
@@ -42,9 +42,9 @@ CREATE TABLE silver.crm_sales_details(
 	sls_ord_num VARCHAR(50),
 	sls_prd_key VARCHAR(50),
 	sls_cust_id INT,
-	sls_order_dt INT,
-	sls_ship_dt INT,
-	sls_due_dt INT,
+	sls_order_dt DATE,
+	sls_ship_dt DATE,
+	sls_due_dt DATE,
 	sls_sales INT,
 	sls_quantity INT,
 	sls_price INT,

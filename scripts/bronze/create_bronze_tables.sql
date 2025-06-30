@@ -1,18 +1,24 @@
 /* ============================================================================
-   Script: create_bronze_tables.sql
-   Description: This script recreates the Bronze layer tables for the Data Warehouse.
-                - Drops tables if they already exist.
-                - Tables reflect raw incoming CSV structure (no constraints).
-                - Divided into CRM and ERP source sections.
-                - Naming follows: bronze.source_table_name
-   Author: Eduardo Galaz
-   Last updated: 2025-06-28
+   Script:        create_bronze_tables.sql
+   Description:   Recreates all Bronze layer tables for the Data Warehouse.
+                  - Drops tables if they already exist.
+                  - Reflects raw CSV input structure with no constraints.
+                  - Organized into CRM and ERP source sections.
+                  - Naming convention: bronze.[source_table_name]
+   Layer:         Bronze (Raw Data)
+   Author:        Eduardo Galaz
+   Last updated:  2025-06-30
+   Usage:         Run via psql:
+                  psql -U your_user -d your_database -f scripts/bronze/create_bronze_tables.sql
 ============================================================================ */
+
+\echo '[START] Creating Bronze layer tables...'
 
 /* ==============================
    CRM (Customer Relationship Management) Tables
    ============================== */
 
+\echo '[CREATE] bronze.crm_cust_info'
 DROP TABLE IF EXISTS bronze.crm_cust_info;
 CREATE TABLE bronze.crm_cust_info(
 	cst_id INT,
@@ -24,6 +30,7 @@ CREATE TABLE bronze.crm_cust_info(
 	cst_create_date DATE
 );
 
+\echo '[CREATE] bronze.crm_prd_info'
 DROP TABLE IF EXISTS bronze.crm_prd_info;
 CREATE TABLE bronze.crm_prd_info(
 	prd_id INT,
@@ -34,7 +41,8 @@ CREATE TABLE bronze.crm_prd_info(
 	prd_start_dt DATE,
 	prd_end_dt DATE
 );
-	
+
+\echo '[CREATE] bronze.crm_sales_details'
 DROP TABLE IF EXISTS bronze.crm_sales_details;
 CREATE TABLE bronze.crm_sales_details(
 	sls_ord_num VARCHAR(50),
@@ -52,6 +60,7 @@ CREATE TABLE bronze.crm_sales_details(
    ERP (Enterprise Resource Planning) Tables
    ============================== */
 
+\echo '[CREATE] bronze.erp_cust_az12'
 DROP TABLE IF EXISTS bronze.erp_cust_az12;
 CREATE TABLE bronze.erp_cust_az12(
 	cid VARCHAR(50),
@@ -59,12 +68,14 @@ CREATE TABLE bronze.erp_cust_az12(
 	gen VARCHAR(50)
 );
 
+\echo '[CREATE] bronze.erp_loc_a101'
 DROP TABLE IF EXISTS bronze.erp_loc_a101;
 CREATE TABLE bronze.erp_loc_a101(
 	cid VARCHAR(50),
 	cntry VARCHAR(50)
 );
 
+\echo '[CREATE] bronze.erp_px_cat_g1v2'
 DROP TABLE IF EXISTS bronze.erp_px_cat_g1v2;
 CREATE TABLE bronze.erp_px_cat_g1v2(
 	id VARCHAR(50),
@@ -72,3 +83,5 @@ CREATE TABLE bronze.erp_px_cat_g1v2(
 	subcat VARCHAR(50),
 	maintenance VARCHAR(50)
 );
+
+\echo '[OK] All Bronze layer tables created successfully.'
